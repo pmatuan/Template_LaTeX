@@ -27,7 +27,7 @@
 \newcommand{\hustimage}{\photodir/Background1.png}
 \newcommand{\backgroundtitleimage}{\photodir/Background2.png}
 
-\newcommand{\thankyouimage}{\photodir/TableOfContent.png}
+\newcommand{\thankyouimage}{\photodir/Thank you.png}
 
 %%% Begin Source: https://tex.stackexchange.com/questions/123106/detect-aspect-ratio-in-beamer
 \RequirePackage{xparse}
@@ -117,14 +117,14 @@
 
  \AtBeginSection[]  
  {
-   \begin{frame}[plain]{\hustcontent} 
+   \begin{frame}[noframenumbering]{\hustcontent} 
      \tableofcontents[currentsection,currentsubsection] 
      \thispagestyle{empty}
    \end{frame} 
  }  
  \AtBeginSubsection[] 
  {
-    \begin{frame}[plain]{\hustcontent} 
+    \begin{frame}[noframenumbering]{\hustcontent} 
      \tableofcontents[currentsection,currentsubsection] 
      \thispagestyle{empty}
     \end{frame} 
