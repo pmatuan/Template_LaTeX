@@ -23,11 +23,15 @@
 \setbeamertemplate{footline}[frame number]
 
 \newcommand{\photodir}{Photo inside}
-\newcommand{\backgroundimage}{\photodir/Background anh vien tren va duoi.png}
-\newcommand{\hustimage}{\photodir/Background1.png}
-\newcommand{\backgroundtitleimage}{\photodir/Background2.png}
+\newcommand{\backgroundimage}{\photodir/Red Background anh vien tren va duoi.png}
+\newcommand{\hustimage}{\photodir/Red Background1.png}
+\newcommand{\backgroundtitleimage}{\photodir/Red Background2.png}
+\newcommand{\thankyouimage}{\photodir/Red Thank you.png}
 
-\newcommand{\thankyouimage}{\photodir/Thank you.png}
+\newcommand{\backgroundimageBlue}{\photodir/Blue Background anh vien tren va duoi.png}
+\newcommand{\hustimageBlue}{\photodir/Blue Background1.png}
+\newcommand{\backgroundtitleimageBlue}{\photodir/Blue Background2.png}
+\newcommand{\thankyouimageBlue}{\photodir/Blue Thank you.png}
 
 %%% Begin Source: https://tex.stackexchange.com/questions/123106/detect-aspect-ratio-in-beamer
 \RequirePackage{xparse}
@@ -60,6 +64,12 @@
 
 \newcommand{\hustcontent}{Nội dung}
 
+\DeclareOption{blue}{
+    \renewcommand{\backgroundimage}{\backgroundimageBlue}
+    \renewcommand{\hustimage}{\hustimageBlue}
+    \renewcommand{\backgroundtitleimage}{\backgroundtitleimageBlue}
+    \renewcommand{\thankyouimage}{\thankyouimageBlue}
+}
 \DeclareOption*{\PackageWarning{beamerthemehust}{Unknown '\CurrentOption'}}
 
 \ProcessOptions\relax
