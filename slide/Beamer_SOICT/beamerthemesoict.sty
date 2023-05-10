@@ -1,0 +1,131 @@
+% ductv@soict.hust.edu.vn, Version 0, 25/12/2020
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{beamerthemesoict}[2020/12/25 Soict beamer]
+
+\mode<presentation>
+
+\RequirePackage{ifxetex}
+\ifxetex
+	\RequirePackage{fontspec}
+	\RequirePackage{polyglossia}
+	\setmainlanguage{vietnamese}
+	\setmainfont{Arial}
+\else
+	\usefonttheme{professionalfonts} % using non standard fonts for beamer
+	\usefonttheme{serif} 			 % default family is serif
+	\RequirePackage[utf8]{inputenc}
+	\RequirePackage[vietnamese]{babel}
+
+	%\usepackage[vietnamese=nohyphenation]{hyphsubst}
+	%\RequirePackage[vietnamese]{babel}	
+	\RequirePackage[bitstream-charter]{mathdesign}  % My preference
+\fi
+
+\usetheme{Pittsburgh}
+\setbeamertemplate{navigation symbols}{} %remove navigation symbols
+\setbeamertemplate{footline}[frame number]
+
+\newcommand{\photodir}{Photo inside}
+\newcommand{\backgroundimage}{\photodir/Background anh vien tren va duoi (Vie).jpg}
+\newcommand{\soictimage}{\photodir/Background1.jpg}
+\newcommand{\backgroundtitleimage}{\photodir/Background2.jpg}
+
+
+\newcommand{\backgroundimageEng}{\photodir/Background anh vien tren va duoi (Eng).jpg}
+\newcommand{\soictimageEng}{\photodir/Background1 (Eng).jpg}
+\newcommand{\backgroundtitleimageEng}{\photodir/Background2 (Eng).jpg}
+
+\newcommand{\thankyouimage}{\photodir/Thank You.jpg}
+
+%%% Begin Source: https://tex.stackexchange.com/questions/123106/detect-aspect-ratio-in-beamer
+\RequirePackage{xparse}
+\ExplSyntaxOn
+\NewDocumentCommand{\ifaspectratio}{mmm}
+ {
+  % Recover the option from those passed to the class
+  \keys_set:nf { zunbeltz/beameroptions } { \use:c { opt@beamer.cls } }
+  \str_if_eq:nVTF { #1 } \l_zunbeltz_aspectratio_tl { #2 } { #3 }
+ }
+\NewDocumentCommand{\xifaspectratio}{mO{}}
+ {
+  % Recover the option from those passed to the class
+  \keys_set:nf { zunbeltz/beameroptions } { \use:c { opt@beamer.cls } }
+  \str_case:Vnn \l_zunbeltz_aspectratio_tl { #1 } { #2 }
+ }
+% We need to define only one key, the other are treated as `unknown'
+\keys_define:nn { zunbeltz/beameroptions }
+ {
+  aspectratio .tl_set:N = \l_zunbeltz_aspectratio_tl,
+  aspectratio .initial:n = 43,
+  unknown .code:n = {},
+ }
+
+% Generate the variants we need
+\cs_generate_variant:Nn \keys_set:nn { nf }
+\cs_generate_variant:Nn \str_if_eq:nnTF { nV }
+\cs_generate_variant:Nn \str_case:nnn { V }
+\ExplSyntaxOff
+% \xifaspectratio{
+%   {169}{We're on 16:9}
+%   {43}{We're on 4:3}
+% }[None of the above]
+%%% End 
+
+\ifaspectratio{169}{\renewcommand{\photodir}{Photo inside 169}}{}
+\newcommand{\soictcontent}{Nội dung}
+\DeclareOption{en}{
+	\renewcommand{\backgroundimage}{\backgroundimageEng}
+	\renewcommand{\backgroundtitleimage}{\backgroundtitleimageEng}
+	\renewcommand{\soictimage}{\soictimageEng}
+	\renewcommand{\soictcontent}{Outline}
+	% \ifxetex
+	% 	\setmainlanguage{english}
+	% \else
+	% 	\selectlanguage{english}
+	% \fi
+	}
+\DeclareOption*{\PackageWarning{beamerthemesoict}{Unknown '\CurrentOption'}}
+
+\ProcessOptions\relax
+
+\usebackgroundtemplate{ \includegraphics[width=\paperwidth, height=\paperheight]{\backgroundimage}}
+
+\newenvironment{thanksoict}{		% Thank you for your attentions!
+	\usebackgroundtemplate{			%declare it
+   		\includegraphics[height=\paperheight,width=\paperwidth]{\thankyouimage}}
+	\begin{frame}{} \color{white}
+}
+{
+	\end{frame}
+	\usebackgroundtemplate{\includegraphics[width=\paperwidth, height=\paperheight]{\backgroundimage}} %% undeclare it
+}
+
+\newcommand{\soictslide}{	%25 years anniversary SOICT
+	\usebackgroundtemplate{	%declare it
+   \includegraphics[height=\paperheight,width=\paperwidth]{\soictimage}}
+ 	\begin{frame}
+	\end{frame}
+	\usebackgroundtemplate{\includegraphics[width=\paperwidth, height=\paperheight]{\backgroundimage}} %% undeclare it
+	}
+
+\newcommand{\soictmaketitle}{
+	\usebackgroundtemplate{\includegraphics[height=\paperheight,width=\paperwidth]{\backgroundtitleimage}}
+
+	\setbeamercolor{author}{fg=white} 
+	\setbeamercolor{title}{fg=white} 
+	\setbeamercolor{subtitle}{fg=white} 
+	\setbeamercolor{institute}{fg=white} 
+	\setbeamercolor{date}{fg=white} 
+	\ifbeamer@inframe\titlepage\else\frame{\titlepage}\fi
+
+   	\usebackgroundtemplate{\includegraphics[width=\paperwidth, height=\paperheight]{\backgroundimage}} %% undeclare it
+}
+
+ \AtBeginSection[]  
+ {
+   \begin{frame}[plain]{\soictcontent} 
+     \tableofcontents[currentsection,currentsubsection] 
+   \end{frame} 
+ }  
+
+\mode<all>

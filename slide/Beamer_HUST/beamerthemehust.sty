@@ -1,0 +1,133 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{beamerthemehust}[2023/05/10 HUST beamer]
+
+\mode<presentation>
+
+\RequirePackage{ifxetex}
+\ifxetex
+	\RequirePackage{fontspec}
+	\RequirePackage{polyglossia}
+	\setmainlanguage{vietnamese}
+	\setmainfont{Arial}
+\else
+	\usefonttheme{professionalfonts} % using non standard fonts for beamer
+	\usefonttheme{serif} 			 % default family is serif
+	\RequirePackage[utf8]{inputenc}
+	\RequirePackage[vietnamese]{babel}
+
+	\RequirePackage[bitstream-charter]{mathdesign}  % My preference
+\fi
+
+\usetheme{Pittsburgh}
+\setbeamertemplate{navigation symbols}{} %remove navigation symbols
+\setbeamertemplate{footline}[frame number]
+
+\newcommand{\photodir}{Photo inside}
+\newcommand{\backgroundimage}{\photodir/Background anh vien tren va duoi.png}
+\newcommand{\hustimage}{\photodir/Background1.png}
+\newcommand{\backgroundtitleimage}{\photodir/Background2.png}
+
+\newcommand{\thankyouimage}{\photodir/TableOfContent.png}
+
+%%% Begin Source: https://tex.stackexchange.com/questions/123106/detect-aspect-ratio-in-beamer
+\RequirePackage{xparse}
+\ExplSyntaxOn
+\NewDocumentCommand{\ifaspectratio}{mmm}
+ {
+  % Recover the option from those passed to the class
+  \keys_set:nf { zunbeltz/beameroptions } { \use:c { opt@beamer.cls } }
+  \str_if_eq:nVTF { #1 } \l_zunbeltz_aspectratio_tl { #2 } { #3 }
+ }
+\NewDocumentCommand{\xifaspectratio}{mO{}}
+ {
+  % Recover the option from those passed to the class
+  \keys_set:nf { zunbeltz/beameroptions } { \use:c { opt@beamer.cls } }
+  \str_case:Vnn \l_zunbeltz_aspectratio_tl { #1 } { #2 }
+ }
+% We need to define only one key, the other are treated as `unknown'
+\keys_define:nn { zunbeltz/beameroptions }
+ {
+  aspectratio .tl_set:N = \l_zunbeltz_aspectratio_tl,
+  aspectratio .initial:n = 43,
+  unknown .code:n = {},
+ }
+
+% Generate the variants we need
+\cs_generate_variant:Nn \keys_set:nn { nf }
+\cs_generate_variant:Nn \str_if_eq:nnTF { nV }
+\cs_generate_variant:Nn \str_case:nnn { V }
+\ExplSyntaxOff
+
+\newcommand{\hustcontent}{Nội dung}
+
+\DeclareOption*{\PackageWarning{beamerthemehust}{Unknown '\CurrentOption'}}
+
+\ProcessOptions\relax
+
+\usebackgroundtemplate{ \includegraphics[width=\paperwidth, height=\paperheight]{\backgroundimage}}
+
+\newenvironment{thankhust}{		% Thank you for your attentions!
+	\usebackgroundtemplate{			%declare it
+   		\includegraphics[height=\paperheight,width=\paperwidth]{\thankyouimage}}
+	\begin{frame}[noframenumbering]{} \color{white} \thispagestyle{empty}
+}
+{
+	\end{frame}
+	\usebackgroundtemplate{\includegraphics[width=\paperwidth, height=\paperheight]{\backgroundimage}} %% undeclare it
+}
+
+\newcommand{\hustslide}{	
+	\usebackgroundtemplate{	%declare it
+   \includegraphics[height=\paperheight,width=\paperwidth]{\hustimage}}
+ 	\begin{frame}[noframenumbering]
+    \thispagestyle{empty}
+	\end{frame}
+	\usebackgroundtemplate{\includegraphics[width=\paperwidth, height=\paperheight]{\backgroundimage}} %% undeclare it
+	}
+
+\newcommand{\hustmaketitle}{
+	\usebackgroundtemplate{\includegraphics[height=\paperheight,width=\paperwidth]{\backgroundtitleimage}}
+
+	\setbeamercolor{author}{fg=white} 
+	\setbeamercolor{title}{fg=white} 
+	\setbeamercolor{subtitle}{fg=white} 
+	\setbeamercolor{institute}{fg=white} 
+	\setbeamercolor{date}{fg=white} 
+	
+	\thispagestyle{empty} 
+	
+	\ifbeamer@inframe\titlepage\else\frame{\titlepage}\fi
+
+   	\usebackgroundtemplate{\includegraphics[width=\paperwidth, height=\paperheight]{\backgroundimage}} %% undeclare it
+	
+	\addtocounter{framenumber}{-1}
+}
+
+\setbeamertemplate{frametitle}{
+    \nointerlineskip
+    \begin{beamercolorbox}[sep=0.05cm,ht=1.8em,wd=0.85\paperwidth]{frametitle}
+    \vbox{}\vskip-2ex%
+    \hfill % dời phần tiêu đề sang bên phải
+    \strut\color{white}\insertframetitle\strut % thêm màu trắng vào phần tiêu đề
+    \end{beamercolorbox}
+}
+
+
+
+
+ \AtBeginSection[]  
+ {
+   \begin{frame}[plain]{\hustcontent} 
+     \tableofcontents[currentsection,currentsubsection] 
+     \thispagestyle{empty}
+   \end{frame} 
+ }  
+ \AtBeginSubsection[] 
+ {
+    \begin{frame}[plain]{\hustcontent} 
+     \tableofcontents[currentsection,currentsubsection] 
+     \thispagestyle{empty}
+    \end{frame} 
+ }
+
+\mode<all>
