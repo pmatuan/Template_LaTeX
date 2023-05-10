@@ -25,12 +25,12 @@
 \newcommand{\photodir}{Photo inside}
 \newcommand{\backgroundimage}{\photodir/Red Background anh vien tren va duoi.png}
 \newcommand{\hustimage}{\photodir/Red Background1.png}
-\newcommand{\backgroundtitleimage}{\photodir/Red Background2.png}
+\newcommand{\backgroundtitleimage}{\photodir/Background2.png}
 \newcommand{\thankyouimage}{\photodir/Red Thank you.png}
 
 \newcommand{\backgroundimageBlue}{\photodir/Blue Background anh vien tren va duoi.png}
 \newcommand{\hustimageBlue}{\photodir/Blue Background1.png}
-\newcommand{\backgroundtitleimageBlue}{\photodir/Blue Background2.png}
+\newcommand{\backgroundtitleimageBlue}{\photodir/Background2.png}
 \newcommand{\thankyouimageBlue}{\photodir/Blue Thank you.png}
 
 %%% Begin Source: https://tex.stackexchange.com/questions/123106/detect-aspect-ratio-in-beamer
@@ -98,11 +98,11 @@
 \newcommand{\hustmaketitle}{
 	\usebackgroundtemplate{\includegraphics[height=\paperheight,width=\paperwidth]{\backgroundtitleimage}}
 
-	\setbeamercolor{author}{fg=white} 
-	\setbeamercolor{title}{fg=white} 
-	\setbeamercolor{subtitle}{fg=white} 
-	\setbeamercolor{institute}{fg=white} 
-	\setbeamercolor{date}{fg=white} 
+	\setbeamercolor{author}{fg=black} 
+	\setbeamercolor{title}{fg=black} 
+	\setbeamercolor{subtitle}{fg=black} 
+	\setbeamercolor{institute}{fg=black} 
+	\setbeamercolor{date}{fg=black} 
 	
 	\thispagestyle{empty} 
 	
@@ -112,6 +112,22 @@
 	
 	\addtocounter{framenumber}{-1}
 }
+
+\setbeamertemplate{title page}{
+  \begin{minipage}[c][\textheight]{0.7\textwidth}
+    \usebeamercolor[fg]{title}\usebeamerfont{title}\huge\inserttitle\par
+    \usebeamercolor[fg]{subtitle}\usebeamerfont{subtitle}\insertsubtitle\par
+    \bigskip
+    \usebeamercolor[fg]{author}\usebeamerfont{author}\Large\insertauthor\par
+    \usebeamercolor[fg]{institute}\usebeamerfont{institute}\Large\insertinstitute\par
+    \usebeamercolor[fg]{date}\usebeamerfont{date}\large\insertdate\par
+  \end{minipage}
+  \begin{minipage}[c][\textheight]{0.3\textwidth}
+    \vfill
+    \includegraphics[width=\textwidth]{example-image}
+  \end{minipage}
+}
+
 
 \setbeamertemplate{frametitle}{
     \nointerlineskip
